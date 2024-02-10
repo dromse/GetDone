@@ -17,6 +17,22 @@ export const TrashIcon = (): IconElement => (
   />
 );
 
+export const CheckIcon = (): IconElement => (
+  <Icon
+    style={styles.icon}
+    fill="white"
+    name="checkmark-circle-outline"
+  />
+);
+
+export const UncheckIcon = (): IconElement => (
+  <Icon
+    style={styles.icon}
+    fill="white"
+    name="radio-button-off-outline"
+  />
+);
+
 const styles = StyleSheet.create({
   icon: {
     width: 32,

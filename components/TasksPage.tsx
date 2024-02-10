@@ -7,7 +7,6 @@ import TaskList from "./TaskList";
 import { AddIcon } from "./icons";
 
 export default function TasksPage() {
-  //const [updateTaskList, setUpdateTaskList] = useState<boolean>(true);
   const [inputValue, setInputValue] = useState("");
   const [taskList, setTaskList] = useState<Task[]>([]);
 
@@ -25,7 +24,7 @@ export default function TasksPage() {
   };
 
   useEffect(() => {
-    taskDb.get({}).then((data) => setTaskList(data));
+    taskDb.get({}).then(tasks => setTaskList(tasks))
   }, [isDataFetched]);
 
   return (

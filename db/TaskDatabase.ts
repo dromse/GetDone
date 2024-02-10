@@ -25,27 +25,54 @@ export class TaskDatabase {
     );
 
   /** if **id** is undefined -> returns all tasks */
-  get = async ({ id }: { id?: number }) =>
-    new Promise<Task[]>((resolve) =>
-      this.db.transaction((tx) => {
-        tx.executeSql("select * from tasks", [], (_, { rows }) => {
-          resolve(rows._array);
+  get = ({ id }: { id?: number }): Promise<Task[]> =>
+    new Promise((resolve) => {
+      if (!id) {
+        this.db.transaction((tx) => {
+          tx.executeSql("select * from tasks", [], (_, { rows }) => {
+            resolve(rows._array);
+          });
         });
-      }),
-    );
+      } else {
+        this.db.transaction((tx) => {
+          tx.executeSql(
+            "select * from tasks where id = (?)",
+            [id],
+            (_, { rows }) => {
+              resolve(rows._array);
+            },
+          );
+        });
+      }
+    });
 
-  /** Provide **id** and one or many fields to update */
-  update = ({
-    id,
-    title,
-    completed,
-  }: {
-    id: number;
-    title?: string;
-    completed?: boolean;
-  }): Task => {
-    return {} as Task;
-  };
+  setCompletedById = ({ id, completed }: { id: number; completed: boolean }) =>
+    this.db.transaction((tx) => {
+      tx.executeSql(
+        `update tasks set completed = ? where id = ?`,
+        [completed ? 1 : 0, id],
+        (_, { rowsAffected }) => {
+          if (rowsAffected > 0) {
+          } else {
+          }
+        },
+      );
+    });
+
+  setTitleById = ({ id, title }: { id: number; title: string }) =>
+    this.db.transaction((tx) => {
+      tx.executeSql(
+        `update tasks set title = ? where id = ?`,
+        [title, id],
+        (_, { rowsAffected }) => {
+          if (rowsAffected > 0) {
+            console.log("update");
+          } else {
+            console.log("not update");
+          }
+        },
+      );
+    });
 
   delete = ({ id }: { id: number }) =>
     new Promise<boolean>((resolve, reject) =>

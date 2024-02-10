@@ -8,7 +8,6 @@ import TasksPage from "./components/TasksPage";
 import { DatabaseContext } from "./context";
 import { TaskDatabase } from "./db/TaskDatabase";
 const db = SQLite.openDatabase("mydb.db");
-const fetchData = true
 
 export default () => {
   useEffect(() => {
