@@ -1,9 +1,14 @@
 import * as eva from "@eva-design/eva";
-import { ApplicationProvider, IconRegistry } from "@ui-kitten/components";
+import {
+  ApplicationProvider,
+  IconRegistry
+} from "@ui-kitten/components";
 import { EvaIconsPack } from "@ui-kitten/eva-icons";
 import * as SQLite from "expo-sqlite";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import FAB from "./components/FAB";
 import TasksPage from "./components/TasksPage";
 import { DatabaseContext } from "./context";
 import { TaskDatabase } from "./db/TaskDatabase";
@@ -24,7 +29,7 @@ export default () => {
 
   const taskDb = new TaskDatabase(db);
 
-  const [ isDataFetched, fetchData ] = useState<boolean>(true)
+  const [isDataFetched, fetchData] = useState<boolean>(true);
 
   return (
     <>
@@ -34,10 +39,19 @@ export default () => {
         {...eva}
         theme={eva.dark}
       >
-        <DatabaseContext.Provider value={{ db, taskDb, isDataFetched, fetchData }}>
-          <TasksPage />
+        <DatabaseContext.Provider
+          value={{ db, taskDb, isDataFetched, fetchData }}
+        >
+          <View style={styles.container}>
+            <TasksPage />
+            <FAB />
+          </View>
         </DatabaseContext.Provider>
       </ApplicationProvider>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+});
